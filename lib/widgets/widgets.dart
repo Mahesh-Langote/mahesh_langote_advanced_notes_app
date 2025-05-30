@@ -5,3 +5,4 @@ export 'loading_widget.dart';
 export 'custom_error_widget.dart';
 export 'note_card.dart';
 export 'search_bottom_sheet.dart';
+export 'filter_bottom_sheet.dart';
