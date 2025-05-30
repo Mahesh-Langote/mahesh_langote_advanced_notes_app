@@ -254,8 +254,12 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Show search bottom sheet
   void _showSearchBottomSheet(BuildContext context) {
-    // TODO: Implement search functionality
-    UIUtils.showSuccessSnackBar(context, 'Search - Coming Soon');
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const SearchBottomSheet(),
+    );
   }
 
   /// Show filter bottom sheet
