@@ -12,7 +12,6 @@ class AppStrings {
   static const String addNoteRoute = '/add-note';
   static const String editNoteRoute = '/edit-note';
   static const String noteDetailRoute = '/note-detail';
-
   // Home screen
   static const String homeTitle = 'My Notes';
   static const String homeSubtitle = 'Capture your thoughts';
@@ -21,6 +20,11 @@ class AppStrings {
   static const String noNotesSubtitle =
       'Tap the + button to create your first note';
   static const String createFirstNote = 'Create your first note';
+
+  // Empty state
+  static const String emptyNotesTitle = 'No Notes Yet';
+  static const String emptyNotesMessage =
+      'Your thoughts are waiting to be captured.\nTap the button below to create your first note.';
 
   // Add/Edit note screen
   static const String addNoteTitle = 'New Note';
@@ -33,15 +37,15 @@ class AppStrings {
   static const String categoryHint = 'Select category';
   static const String saveNote = 'Save Note';
   static const String updateNote = 'Update Note';
-  static const String discardChanges = 'Discard Changes';
-
-  // Note detail screen
+  static const String discardChanges = 'Discard Changes'; // Note detail screen
   static const String noteDetailTitle = 'Note Details';
+  static const String noteDetails = 'Note Details';
   static const String editNote = 'Edit';
-  static const String deleteNote = 'Delete';
   static const String shareNote = 'Share';
   static const String createdAt = 'Created';
+  static const String updatedAt = 'Updated';
   static const String lastModified = 'Last modified';
+  static const String noteMetadata = 'Note Information';
 
   // Categories
   static const String categoryWork = 'Work';
@@ -64,9 +68,14 @@ class AppStrings {
   static const String back = 'Back';
   static const String next = 'Next';
   static const String previous = 'Previous';
-
+  static const String discard = 'Discard';
+  static const String share = 'Share';
+  static const String dismiss = 'Dismiss';
   // Dialogs and confirmations
+  static const String deleteNote = 'Delete Note';
   static const String deleteNoteTitle = 'Delete Note';
+  static const String deleteNoteConfirmation =
+      'Are you sure you want to delete this note? This action cannot be undone.';
   static const String deleteNoteMessage =
       'Are you sure you want to delete this note? This action cannot be undone.';
   static const String discardChangesTitle = 'Discard Changes';
@@ -97,13 +106,13 @@ class AppStrings {
   static const String errorValidation =
       'Please check your input and try again.';
   static const String errorPermission = 'Permission denied.';
-  static const String errorTimeout = 'Operation timed out. Please try again.';
-
-  // Success messages
+  static const String errorTimeout =
+      'Operation timed out. Please try again.'; // Success messages
   static const String noteSaved = 'Note saved successfully';
   static const String noteUpdated = 'Note updated successfully';
   static const String noteDeleted = 'Note deleted successfully';
   static const String noteShared = 'Note shared successfully';
+  static const String deleteNoteFailed = 'Failed to delete note';
 
   // Loading states
   static const String loading = 'Loading...';
@@ -151,9 +160,7 @@ class AppStrings {
   static const String language = 'Language';
   static const String about = 'About';
   static const String help = 'Help';
-  static const String feedback = 'Feedback';
-
-  // Tutorial and onboarding
+  static const String feedback = 'Feedback'; // Tutorial and onboarding
   static const String welcomeTitle = 'Welcome to Advanced Notes';
   static const String welcomeSubtitle = 'Organize your thoughts efficiently';
   static const String getStarted = 'Get Started';

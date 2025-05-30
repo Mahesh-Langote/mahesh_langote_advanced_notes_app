@@ -28,12 +28,13 @@ class AppColors {
   static const Color onError = Color(0xFFFFFFFF);
   static const Color errorContainer = Color(0xFFFFDAD6);
   static const Color onErrorContainer = Color(0xFF410002);
-
   // Surface color palette
   static const Color surface = Color(0xFFFFFBFE);
   static const Color onSurface = Color(0xFF1C1B1F);
   static const Color surfaceVariant = Color(0xFFE7E0EC);
   static const Color onSurfaceVariant = Color(0xFF49454F);
+  static const Color surfaceContainer = Color(0xFFF3EDF7);
+  static const Color surfaceTint = Color(0xFF6750A4);
 
   // Background colors
   static const Color background = Color(0xFFFFFBFE);
