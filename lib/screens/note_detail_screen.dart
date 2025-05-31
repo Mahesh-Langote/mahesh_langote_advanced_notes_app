@@ -258,7 +258,7 @@ class NoteDetailScreen extends StatelessWidget {
           actions: [
             TextButton(
               onPressed: () => Navigator.of(context).pop(),
-              child: Text(
+              child: const Text(
                 AppStrings.cancel,
                 style: TextStyle(color: AppColors.primary),
               ),
@@ -271,7 +271,7 @@ class NoteDetailScreen extends StatelessWidget {
               style: FilledButton.styleFrom(
                 backgroundColor: AppColors.error,
               ),
-              child: Text(
+              child: const Text(
                 AppStrings.delete,
                 style: TextStyle(color: AppColors.onError),
               ),
@@ -290,7 +290,7 @@ class NoteDetailScreen extends StatelessWidget {
       if (context.mounted) {
         Navigator.of(context).pop(); // Go back to previous screen
         ScaffoldMessenger.of(context).showSnackBar(
-          SnackBar(
+          const SnackBar(
             content: Text(AppStrings.noteDeleted),
             backgroundColor: AppColors.primary,
           ),
