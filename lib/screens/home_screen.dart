@@ -20,6 +20,12 @@ class HomeScreen extends StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   final ScrollController _scrollController = ScrollController();
   bool _isScrolled = false;
+  bool _hasActiveFilters = false;
+  // Filter state persistence
+  NoteCategory? _currentFilterCategory;
+  SortOption _currentSortOption = SortOption.dateNewest;
+  DateTime? _currentStartDate;
+  DateTime? _currentEndDate;
 
   @override
   void initState() {
@@ -53,8 +59,12 @@ class _HomeScreenState extends State<HomeScreen> {
     return Scaffold(
       body: Consumer<NotesService>(
         builder: (context, notesService, child) {
+          _hasActiveFilters = notesService.hasActiveFilters;
+
           return StreamBuilder<List<Note>>(
-            stream: notesService.notesStream,
+            stream: _hasActiveFilters
+                ? notesService.filteredNotesStream
+                : notesService.notesStream,
             builder: (context, snapshot) {
               return CustomScrollView(
                 controller: _scrollController,
@@ -125,9 +135,7 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-      ),
-
-      // Action buttons that appear/disappear based on scroll
+      ), // Action buttons that appear/disappear based on scroll
       actions: [
         if (!_isScrolled) ...[
           IconButton(
@@ -136,12 +144,40 @@ class _HomeScreenState extends State<HomeScreen> {
             color: AppColors.onSurface,
             tooltip: AppStrings.searchButton,
           ),
-          IconButton(
-            onPressed: () => _showFilterBottomSheet(context, notesService),
-            icon: const Icon(Icons.filter_list),
-            color: AppColors.onSurface,
-            tooltip: 'Filter notes',
+          Stack(
+            children: [
+              IconButton(
+                onPressed: () => _showFilterBottomSheet(context, notesService),
+                icon: const Icon(Icons.filter_list),
+                color:
+                    _hasActiveFilters ? AppColors.primary : AppColors.onSurface,
+                tooltip: 'Filter notes',
+              ),
+              if (_hasActiveFilters)
+                Positioned(
+                  right: 8,
+                  top: 8,
+                  child: Container(
+                    width: 8,
+                    height: 8,
+                    decoration: BoxDecoration(
+                      color: AppColors.error,
+                      shape: BoxShape.circle,
+                    ),
+                  ),
+                ),
+            ],
           ),
+          if (_hasActiveFilters)
+            IconButton(
+              onPressed: () {
+                notesService.clearFilters();
+                UIUtils.showSuccessSnackBar(context, 'Filters cleared');
+              },
+              icon: const Icon(Icons.clear),
+              color: AppColors.onSurface,
+              tooltip: 'Clear filters',
+            ),
         ],
         if (_isScrolled) ...[
           IconButton(
@@ -254,14 +290,47 @@ class _HomeScreenState extends State<HomeScreen> {
 
   /// Show search bottom sheet
   void _showSearchBottomSheet(BuildContext context) {
-    // TODO: Implement search functionality
-    UIUtils.showSuccessSnackBar(context, 'Search - Coming Soon');
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => const SearchBottomSheet(),
+    );
   }
 
   /// Show filter bottom sheet
   void _showFilterBottomSheet(BuildContext context, NotesService notesService) {
-    // TODO: Implement filter functionality
-    UIUtils.showSuccessSnackBar(context, 'Filter - Coming Soon');
+    showModalBottomSheet(
+      context: context,
+      isScrollControlled: true,
+      backgroundColor: Colors.transparent,
+      builder: (context) => FilterBottomSheet(
+        initialCategory: _currentFilterCategory,
+        initialSortOption: _currentSortOption,
+        initialStartDate: _currentStartDate,
+        initialEndDate: _currentEndDate,
+        onApplyFilters:
+            (filteredNotes, category, sortOption, startDate, endDate) {
+          // Store current filter state
+          setState(() {
+            _currentFilterCategory = category;
+            _currentSortOption = sortOption;
+            _currentStartDate = startDate;
+            _currentEndDate = endDate;
+            _hasActiveFilters = _isFiltersActive();
+          });
+          notesService.applyFilters(filteredNotes);
+        },
+      ),
+    );
+  }
+
+  /// Check if any filters are currently active
+  bool _isFiltersActive() {
+    return _currentFilterCategory != null ||
+        _currentStartDate != null ||
+        _currentEndDate != null ||
+        _currentSortOption != SortOption.dateNewest;
   }
 
   /// Delete note with confirmation

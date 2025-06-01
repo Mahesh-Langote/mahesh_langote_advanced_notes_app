@@ -21,10 +21,15 @@ class NotesService extends ChangeNotifier {
       BehaviorSubject<bool>.seeded(false);
   final BehaviorSubject<String?> _errorController = BehaviorSubject<String?>();
 
+  // Filtered notes stream for custom filtering/sorting
+  final BehaviorSubject<List<Note>> _filteredNotesController =
+      BehaviorSubject<List<Note>>();
+
   // Public streams
   Stream<List<Note>> get notesStream => _notesController.stream;
   Stream<bool> get loadingStream => _loadingController.stream;
   Stream<String?> get errorStream => _errorController.stream;
+  Stream<List<Note>> get filteredNotesStream => _filteredNotesController.stream;
 
   // Current state getters
   List<Note> get notes => _notesController.value;
@@ -268,6 +273,32 @@ class NotesService extends ChangeNotifier {
     return categories;
   }
 
+  /// Apply custom filters to notes and update filtered stream
+  void applyFilters(List<Note> filteredNotes) {
+    _filteredNotesController.add(filteredNotes);
+    notifyListeners();
+  }
+
+  /// Clear filters and show all notes
+  void clearFilters() {
+    _filteredNotesController.add(notes);
+    notifyListeners();
+  }
+
+  /// Check if filters are currently applied
+  bool get hasActiveFilters {
+    if (!_filteredNotesController.hasValue) return false;
+    return _filteredNotesController.value.length != notes.length;
+  }
+
+  /// Get current filtered notes
+  List<Note> get filteredNotes {
+    if (_filteredNotesController.hasValue) {
+      return _filteredNotesController.value;
+    }
+    return notes;
+  }
+
   /// Private helper methods
 
   Future<void> _loadNotes() async {
@@ -276,8 +307,10 @@ class NotesService extends ChangeNotifier {
       // Sort by updatedAt descending (most recent first)
       notesList.sort((a, b) => b.updatedAt.compareTo(a.updatedAt));
       _notesController.add(notesList);
+      _filteredNotesController.add(notesList); // Update filtered notes stream
     } catch (e) {
       _notesController.addError(e);
+      _filteredNotesController.addError(e);
     }
   }
 
@@ -333,12 +366,13 @@ class NotesService extends ChangeNotifier {
     debugPrint('NotesService Error: $error');
   }
 
-  /// Dispose resources
+  /// Dispose method to clean up resources
   @override
   void dispose() {
     _notesController.close();
     _loadingController.close();
     _errorController.close();
+    _filteredNotesController.close();
     super.dispose();
   }
 }
