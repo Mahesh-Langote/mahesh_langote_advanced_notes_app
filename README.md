@@ -6,6 +6,14 @@ An enterprise-grade note-taking application built with Flutter, demonstrating mo
 ![Dart](https://img.shields.io/badge/Dart-0175C2?style=for-the-badge&logo=dart&logoColor=white)
 ![Material Design 3](https://img.shields.io/badge/Material%20Design%203-757575?style=for-the-badge&logo=material-design&logoColor=white)
 
+## 📱 Download
+
+**Ready to try the app?** Download the latest Android build:
+
+[![Download APK](https://img.shields.io/badge/Download-Android%20APK-brightgreen?style=for-the-badge&logo=android&logoColor=white)](doc/build/note-app-v1.0.0.apk)
+
+> **Note**: This is a debug build for testing purposes. For production use, please build from source following the instructions below.
+
 ## 🚀 Project Overview
 
 This advanced notes application showcases mastery of contemporary Flutter development, featuring sophisticated form handling with `reactive_forms`, complex Sliver-based UI architecture, local data persistence using `Hive`, and enterprise-level code organization.
